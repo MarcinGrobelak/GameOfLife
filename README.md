@@ -13,7 +13,7 @@ Project is created with:<br />
 * **JavaSE** version: 8<br />
 * **JUnit** version: 5.6.1<br />
 * **Hamcrest** version: 2.2<br />
-* **Maven** version: 3.6.0http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=3274405
+* **Maven** version: 3.6.0<br />
 
 ### Running the tests
 Maven will launch test automatically during build using **junit-platform-runner** and **maven-surefire-plugin**.
