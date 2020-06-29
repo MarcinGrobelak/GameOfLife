@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.mgrobelak.board.Board;
@@ -18,28 +17,30 @@ public class GamePanel extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = -7775299104049319502L;
 
-	private JFrame frame;
 	private Board board;
-	int rowHeight;
-	int columnWidth;
+	double rowHeight;
+	double columnWidth;
 
-	public GamePanel(JFrame frame) {
-		this.frame = frame;
+	public GamePanel() {
 		this.addMouseListener(this);
-		board = new Board(10, 10);
+		board = new Board(60, 70);
 		board.fillWithDeadCells();
+	}
+
+	public void createNextGeneration() {
+		Board nextGen = new Board(board);
+		board = nextGen;
 	}
 
 	@Override
 	public void paintComponent(Graphics graphics) {
 		super.paintComponent(graphics);
-		rowHeight = this.getHeight() / board.getRows();
-		columnWidth = this.getWidth() / board.getColumns();
+		rowHeight = (double) this.getHeight() / board.getRows();
+		columnWidth = (double) this.getWidth() / board.getColumns();
 		drawCells(graphics);
 		drawColumnLines(graphics);
 		drawRowLines(graphics);
-		frame.repaint();
-
+		this.repaint();
 	}
 
 	private void drawCells(Graphics graphics) {
@@ -47,7 +48,8 @@ public class GamePanel extends JPanel implements MouseListener {
 		for (int row = 0; row < board.getRows(); row++) {
 			for (int column = 0; column < board.getColumns(); column++) {
 				if (board.getCells()[row][column].getState()) {
-					graphics.fillRect(column * columnWidth, row * rowHeight, columnWidth, rowHeight);
+					graphics.fillRect(round(column * columnWidth), round(row * rowHeight), round(columnWidth) + 1,
+							round(rowHeight) + 1);
 				}
 			}
 		}
@@ -56,22 +58,25 @@ public class GamePanel extends JPanel implements MouseListener {
 	private void drawColumnLines(Graphics graphics) {
 		graphics.setColor(Color.BLACK);
 		for (int i = 0; i < board.getColumns(); i++) {
-			graphics.drawLine(i * columnWidth, 0, i * columnWidth, this.getHeight());
+			graphics.drawLine(round(i * columnWidth), 0, round(i * columnWidth), this.getHeight());
 		}
 	}
 
 	private void drawRowLines(Graphics graphics) {
 		graphics.setColor(Color.BLACK);
 		for (int i = 0; i < board.getRows(); i++) {
-			graphics.drawLine(0, i * rowHeight, this.getWidth(), i * rowHeight);
+			graphics.drawLine(0, round(i * rowHeight), this.getWidth(), round(i * rowHeight));
 		}
+	}
+
+	private int round(double i) {
+		return (int) Math.round(i);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent event) {
-		int column = event.getX() / columnWidth;
-		int row = event.getY() / rowHeight;
-		System.out.println("Column: " + column + " ,row: " + row);
+		int column = (int) Math.floor(event.getX() / columnWidth);
+		int row = (int) Math.floor(event.getY() / rowHeight);
 		boolean oldState = board.getCells()[row][column].getState();
 		board.getCells()[row][column].setState(!oldState);
 	}

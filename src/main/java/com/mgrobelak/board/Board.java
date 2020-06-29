@@ -6,10 +6,6 @@ package com.mgrobelak.board;
 
 import java.util.Random;
 
-/**
- * @author Marcin Grobelak
- */
-
 import com.mgrobelak.cell.Cell;
 
 public class Board {
@@ -23,11 +19,23 @@ public class Board {
 		cells = new Cell[rows][columns];
 	}
 
+	public Board(Board board) {
+		board.scan();
+		rows = board.getRows();
+		columns = board.getColumns();
+		this.cells = new Cell[rows][columns];
+		for (int row = 0; row < rows; row++) {
+			for (int column = 0; column < columns; column++) {
+				this.cells[row][column] = new Cell(board.getCells()[row][column]);
+			}
+		}
+	}
+
 	private void scan() {
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				if (cells[i][j].getState() == true) {
-					increaseNeighbors(i, j);
+		for (int row = 0; row < rows; row++) {
+			for (int column = 0; column < columns; column++) {
+				if (cells[row][column].getState() == true) {
+					increaseNeighbors(row, column);
 				}
 			}
 		}
@@ -42,7 +50,7 @@ public class Board {
 
 			cells[row - 1][column].addNeighbor();
 
-			if (column < this.columns) {
+			if (column < this.columns - 1) {
 				cells[row - 1][column + 1].addNeighbor();
 			}
 		}
@@ -51,19 +59,19 @@ public class Board {
 		if (column > 0) {
 			cells[row][column - 1].addNeighbor();
 		}
-		if (column < this.columns) {
+		if (column < this.columns - 1) {
 			cells[row][column + 1].addNeighbor();
 		}
 
 		// next row
-		if (row < this.rows) {
+		if (row < this.rows - 1) {
 			if (column > 0) {
 				cells[row + 1][column - 1].addNeighbor();
 			}
 
 			cells[row + 1][column].addNeighbor();
 
-			if (column < this.columns) {
+			if (column < this.columns - 1) {
 				cells[row + 1][column + 1].addNeighbor();
 			}
 		}
