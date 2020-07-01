@@ -14,6 +14,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import com.mgrobelak.view.listeners.ClearBoardListener;
+import com.mgrobelak.view.listeners.GameSettingsListener;
 import com.mgrobelak.view.listeners.GenerateRandomBoardListener;
 import com.mgrobelak.view.listeners.StartGameListener;
 import com.mgrobelak.view.listeners.StopGameListener;
@@ -45,6 +46,7 @@ public class Runner implements Runnable {
 		menu.add(createMenuItem("Stop", KeyEvent.VK_2, new StopGameListener(this)));
 		menu.add(createMenuItem("Generate random board", KeyEvent.VK_3, new GenerateRandomBoardListener(this)));
 		menu.add(createMenuItem("Clear the board", KeyEvent.VK_4, new ClearBoardListener(this)));
+		menu.add(createMenuItem("Game settings", KeyEvent.VK_5, new GameSettingsListener(this)));
 		return menubar;
 	}
 
