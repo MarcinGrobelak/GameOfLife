@@ -97,4 +97,8 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void mouseExited(MouseEvent event) {
 	}
 
+	public Board getBoard() {
+		return board;
+	}
+
 }

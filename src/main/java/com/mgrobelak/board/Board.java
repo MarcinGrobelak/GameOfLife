@@ -20,7 +20,7 @@ public class Board {
 	}
 
 	public Board(Board board) {
-		board.scan();
+		board.checkForNeighbors();
 		rows = board.getRows();
 		columns = board.getColumns();
 		this.cells = new Cell[rows][columns];
@@ -31,7 +31,7 @@ public class Board {
 		}
 	}
 
-	private void scan() {
+	private void checkForNeighbors() {
 		for (int row = 0; row < rows; row++) {
 			for (int column = 0; column < columns; column++) {
 				if (cells[row][column].getState() == true) {

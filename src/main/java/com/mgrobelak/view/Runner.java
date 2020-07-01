@@ -5,7 +5,6 @@ package com.mgrobelak.view;
  */
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
@@ -14,17 +13,23 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class Runner implements ActionListener, Runnable {
+import com.mgrobelak.view.listeners.ClearBoardListener;
+import com.mgrobelak.view.listeners.GenerateRandomBoardListener;
+import com.mgrobelak.view.listeners.StartGameListener;
+import com.mgrobelak.view.listeners.StopGameListener;
+
+public class Runner implements Runnable {
 
 	private boolean launched;
 	private GamePanel gamePanel;
 	private int interval;
 
 	public Runner() {
+		launched = false;
 		JFrame mainWindow = new JFrame("John Conway's Gamme of Life");
 		mainWindow.setJMenuBar(createMenu());
 		gamePanel = new GamePanel();
-		mainWindow.setSize(1800, 1200);
+		mainWindow.setSize(1200, 800);
 		interval = 500;
 		mainWindow.setLayout(new BorderLayout());
 		mainWindow.add(gamePanel, BorderLayout.CENTER);
@@ -36,30 +41,21 @@ public class Runner implements ActionListener, Runnable {
 		JMenuBar menubar = new JMenuBar();
 		JMenu menu = new JMenu("Game");
 		menubar.add(menu);
-		JMenuItem startItem = new JMenuItem("Start", KeyEvent.VK_1);
-		startItem.addActionListener(this);
-		JMenuItem stopItem = new JMenuItem("Stop", KeyEvent.VK_0);
-		stopItem.addActionListener(this);
-		menu.add(startItem);
-		menu.add(stopItem);
+		menu.add(createMenuItem("Start", KeyEvent.VK_1, new StartGameListener(this)));
+		menu.add(createMenuItem("Stop", KeyEvent.VK_2, new StopGameListener(this)));
+		menu.add(createMenuItem("Generate random board", KeyEvent.VK_3, new GenerateRandomBoardListener(this)));
+		menu.add(createMenuItem("Clear the board", KeyEvent.VK_4, new ClearBoardListener(this)));
 		return menubar;
+	}
+
+	private JMenuItem createMenuItem(String name, int key, ActionListener listener) {
+		JMenuItem item = new JMenuItem(name, key);
+		item.addActionListener(listener);
+		return item;
 	}
 
 	public static void main(String[] args) {
 		new Runner();
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		if (event.getActionCommand().equals("Start")) {
-			if (!launched) {
-				launched = true;
-				Thread thread = new Thread(this);
-				thread.start();
-			}
-			return;
-		}
-		launched = false;
 	}
 
 	@Override
@@ -72,6 +68,18 @@ public class Runner implements ActionListener, Runnable {
 				System.out.println(e.getMessage());
 			}
 		}
+	}
+
+	public boolean getLaunched() {
+		return launched;
+	}
+
+	public void setLaunched(boolean launched) {
+		this.launched = launched;
+	}
+
+	public GamePanel getGamePanel() {
+		return gamePanel;
 	}
 
 }
