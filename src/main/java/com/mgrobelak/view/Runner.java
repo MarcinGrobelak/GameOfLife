@@ -1,10 +1,5 @@
 package com.mgrobelak.view;
 
-/**
- * @author Marcin Grobelak
- */
-
-import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
@@ -23,19 +18,50 @@ public class Runner implements Runnable {
 
 	private boolean launched;
 	private GamePanel gamePanel;
+	private JFrame mainWindow;
+
+	private int widthPx;
+	private int heightPx;
+	private int rows;
+	private int columns;
 	private int interval;
 
 	public Runner() {
 		launched = false;
-		JFrame mainWindow = new JFrame("John Conway's Gamme of Life");
+		mainWindow = new JFrame("John Conway's Game of Life");
 		mainWindow.setJMenuBar(createMenu());
-		gamePanel = new GamePanel();
-		mainWindow.setSize(1200, 800);
-		interval = 500;
-		mainWindow.setLayout(new BorderLayout());
-		mainWindow.add(gamePanel, BorderLayout.CENTER);
+		setDefaultSettings();
+		mainWindow.setSize(widthPx, heightPx);
+		gamePanel = new GamePanel(rows, columns);
+		mainWindow.add(gamePanel);
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainWindow.setVisible(true);
+	}
+
+	private void setDefaultSettings() {
+		heightPx = 800;
+		widthPx = 1200;
+		rows = 60;
+		columns = 70;
+		interval = 500;
+	}
+
+	public void setGameSettings(int widthPx, int heightPx, int rows, int columns, int interval) {
+		launched = false;
+		this.widthPx = widthPx;
+		this.heightPx = heightPx;
+		this.rows = rows;
+		this.columns = columns;
+		this.interval = interval;
+		createBoard();
+		mainWindow.repaint();
+	}
+
+	private void createBoard() {
+		mainWindow.getContentPane().removeAll();
+		mainWindow.setSize(widthPx, heightPx);
+		gamePanel = new GamePanel(rows, columns);
+		mainWindow.add(gamePanel);
 	}
 
 	private JMenuBar createMenu() {
@@ -72,6 +98,10 @@ public class Runner implements Runnable {
 		}
 	}
 
+	public JFrame getMainWindow() {
+		return mainWindow;
+	}
+
 	public boolean getLaunched() {
 		return launched;
 	}
@@ -84,4 +114,23 @@ public class Runner implements Runnable {
 		return gamePanel;
 	}
 
+	public int getHeightPx() {
+		return heightPx;
+	}
+
+	public int getWidthPx() {
+		return widthPx;
+	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	public int getColumns() {
+		return columns;
+	}
+
+	public int getInterval() {
+		return interval;
+	}
 }

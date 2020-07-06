@@ -18,6 +18,6 @@ public class GameSettingsListener extends AbstractListener implements ActionList
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		GameSettings settings = new GameSettings();
+		new GameSettings(runner);
 	}
 }

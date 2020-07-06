@@ -21,9 +21,9 @@ public class GamePanel extends JPanel implements MouseListener {
 	double rowHeight;
 	double columnWidth;
 
-	public GamePanel() {
+	public GamePanel(int rows, int columns) {
 		this.addMouseListener(this);
-		board = new Board(60, 70);
+		board = new Board(rows, columns);
 		board.fillWithDeadCells();
 	}
 
