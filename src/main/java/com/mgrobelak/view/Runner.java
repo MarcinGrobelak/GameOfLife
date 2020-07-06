@@ -1,5 +1,6 @@
 package com.mgrobelak.view;
 
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
@@ -31,18 +32,16 @@ public class Runner implements Runnable {
 		mainWindow = new JFrame("John Conway's Game of Life");
 		mainWindow.setJMenuBar(createMenu());
 		setDefaultSettings();
-		mainWindow.setSize(widthPx, heightPx);
-		gamePanel = new GamePanel(rows, columns);
-		mainWindow.add(gamePanel);
+		createBoard();
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainWindow.setVisible(true);
 	}
 
 	private void setDefaultSettings() {
-		heightPx = 800;
-		widthPx = 1200;
-		rows = 60;
-		columns = 70;
+		widthPx = 1000;
+		heightPx = 700;
+		rows = 50;
+		columns = 60;
 		interval = 500;
 	}
 
@@ -53,13 +52,14 @@ public class Runner implements Runnable {
 		this.rows = rows;
 		this.columns = columns;
 		this.interval = interval;
+		mainWindow.getContentPane().removeAll();
 		createBoard();
+		mainWindow.validate();
 		mainWindow.repaint();
 	}
 
 	private void createBoard() {
-		mainWindow.getContentPane().removeAll();
-		mainWindow.setSize(widthPx, heightPx);
+		mainWindow.setSize(new Dimension(widthPx, heightPx));
 		gamePanel = new GamePanel(rows, columns);
 		mainWindow.add(gamePanel);
 	}

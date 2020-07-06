@@ -17,6 +17,7 @@ public class Board {
 		this.rows = rows;
 		this.columns = columns;
 		cells = new Cell[rows][columns];
+		fillWithDeadCells();
 	}
 
 	public Board(Board board) {
