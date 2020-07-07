@@ -21,7 +21,7 @@ public class Board {
 	}
 
 	public Board(Board board) {
-		board.checkForNeighbors();
+		board.updateNeighborsCount();
 		rows = board.getRows();
 		columns = board.getColumns();
 		this.cells = new Cell[rows][columns];
@@ -32,7 +32,7 @@ public class Board {
 		}
 	}
 
-	private void checkForNeighbors() {
+	public void updateNeighborsCount() {
 		for (int row = 0; row < rows; row++) {
 			for (int column = 0; column < columns; column++) {
 				if (cells[row][column].getState() == true) {

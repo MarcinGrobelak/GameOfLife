@@ -16,6 +16,8 @@ public class StopGameListener extends AbstractListener implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		runner.setLaunched(false);
+		if (runner.getLaunched()) {
+			runner.setLaunched(false);
+		}
 	}
 }
